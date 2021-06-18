@@ -70,6 +70,18 @@ userSchema.methods.generateToken = function (cb) {
     });
 };
 
+userSchema.staticts.findByToken = function (token, cb) {
+    var user = this;
+
+    jwt.verify(token, 'secretToken', function (err, decoded) {
+        //유저 아이디를 이용하여 유저 찾은 후 클라이언트와 db 일치 비교
+        user.findOne({ "_id": decoded, "token": token }, function (err, user) {
+            if (err) return cb(err);
+            cb(null, user);
+        })
+    })
+};
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = { User }

@@ -4,7 +4,7 @@ const port = 5000;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('./config/key');
-
+const { auth } = require('./middleware/auth');
 const { User } = require("./models/User");
 
 //application/x-www-form-urlencoded
@@ -23,7 +23,7 @@ mongoose.connect(config.mongoURI, {
 
 app.get('/', (req, res) => res.send('Hello World! 안녕하세요'))
 
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
     //회원 가입 필요 정보 client to database
 
     const user = new User(req.body);
@@ -35,7 +35,7 @@ app.post('/register', (req, res) => {
     });
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
     // 요청된 이메일은 db에서 검색
     User.findOne({ email: req.body.emal }, (err, user) => {
         if (!user) {
@@ -65,5 +65,19 @@ app.post('/login', (req, res) => {
         });
     });
 });
+
+app.get('/api/users/auth', auth, (req, res) => {
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image,
+    });
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
