@@ -15,11 +15,8 @@ function LoginPage(props) {
         setPassword(event.currentTarget.value)
     };
 
-    const onSubmiHandler = (event) => {
+    const onSubmitHandler = (event) => {
         event.preventDefault(); // 페이지 refresh 방지
-
-        // console.log('Email', Email);
-        // console.log('Password', Password);
 
         let body = {
             email: Email,
@@ -43,7 +40,7 @@ function LoginPage(props) {
             width: '100%', height: '100vh'
         }}>
             <form style={{ display: 'flex', flexDirection: 'column' }}
-                onSubmit={onSubmiHandler}
+                onSubmit={onSubmitHandler}
             >
                 <label>Email</label>
                 <input type='email' value={Email} onChange={onEmailHandler} />
