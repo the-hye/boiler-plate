@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../../../_actions/user_action'
+import { registerUser } from '../../../_actions/user_action';
+import { withRouter } from 'react-router-dom';
 
 function RegisterPage(props) {
     const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function RegisterPage(props) {
     const onSubmitHandler = (event) => {
         event.preventDefault(); // 페이지 refresh 방지
 
-        if(Password !== ConfirmPassword){
+        if (Password !== ConfirmPassword) {
             return alert('비밀번호가 일치하지 않습니다.');
         };
 
@@ -74,4 +75,4 @@ function RegisterPage(props) {
     )
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);

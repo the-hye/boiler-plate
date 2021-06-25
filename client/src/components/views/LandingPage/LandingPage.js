@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 function LandingPage(props) {
 
@@ -8,15 +9,15 @@ function LandingPage(props) {
             .then(response => console.log(response.data))
     }, []);
 
-    const onClickHandler=()=>{
+    const onClickHandler = () => {
         axios.get('/api/users/logout')
-        .then(response => {
-            if(response.data.success){
-                props.history.push('/login');
-            }else{
-                alert('로그아웃에 실패하였습니다');
-            }
-        });
+            .then(response => {
+                if (response.data.success) {
+                    props.history.push('/login');
+                } else {
+                    alert('로그아웃에 실패하였습니다');
+                }
+            });
     };
 
     return (
@@ -33,4 +34,4 @@ function LandingPage(props) {
     )
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);
